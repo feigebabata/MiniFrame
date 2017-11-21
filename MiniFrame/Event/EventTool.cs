@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class EventMng
+public class EventTool
 {
-	private EventMng(){}
+	private EventTool(){}
 
 	private static Dictionary<string,List<object>> eventDict = new Dictionary<string, List<object>>();
 

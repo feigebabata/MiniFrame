@@ -64,7 +64,7 @@ public class PanelBase : MonoBehaviour
 		gameObject.SetActive(false);
 		IsOpen=false;
 		//
-		EventMng.Run(EventName.PanelBase.InitFinsh+gameObject.name);
+		EventTool.Run(EventName.PanelBase.InitFinsh+gameObject.name);
 	}
 	public void Open()
 	{
@@ -76,7 +76,7 @@ public class PanelBase : MonoBehaviour
 		IsOpen=true;
 		StartCoroutine(playEnterAni(()=>
 			{
-				EventMng.Run(EventName.PanelBase.OpenFinsh+gameObject.name);
+				EventTool.Run(EventName.PanelBase.OpenFinsh+gameObject.name);
 			}));
 	}
 	public void Close()
@@ -86,7 +86,7 @@ public class PanelBase : MonoBehaviour
 			{
 				gameObject.SetActive(false);
 				IsOpen=false;
-				EventMng.Run(EventName.PanelBase.CloseFinsh+gameObject.name);
+				EventTool.Run(EventName.PanelBase.CloseFinsh+gameObject.name);
 			}));
 	}
 

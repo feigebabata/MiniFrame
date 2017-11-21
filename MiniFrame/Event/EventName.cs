@@ -17,4 +17,12 @@ public class EventName
 		public static readonly string PlayBG = "Audio.PlayBG";
 		public static readonly string PlayOnly = "Audio.PlayOnly";
 	}
+
+	public class SocketClient
+	{
+		public static readonly string Send = "SocketClient.Send";
+		public static readonly string ConnectServer = "SocketClient.ConnectServer";
+		public static readonly string CloseConnect = "SocketClient.CloseConnect";
+		public static readonly string ReceiveData = "SocketClient.ReceiveData";
+	}
 }

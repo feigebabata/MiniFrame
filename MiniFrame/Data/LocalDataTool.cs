@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class LocalData 
+public class LocalDataTool 
 {
+    private LocalDataTool(){}
 	public static string GetLocalPath()
     {
         switch (Application.platform)

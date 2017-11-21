@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 
-public class AudioMng : MonoBehaviour
+public class AudioMng : MngBase
 {
     private const string AUDIODIR = "Audios/";
     private Dictionary<string,AudioClip> audios = new Dictionary<string, AudioClip>();
@@ -14,17 +14,17 @@ public class AudioMng : MonoBehaviour
 
     [SerializeField]
     private GameObject playOnlyGO;
-    public void Init()
+    public override void Init()
     {
-        EventMng.Add<string>(EventName.Audio.PlayBG,playBG);
-        EventMng.Add<string>(EventName.Audio.PlayOnly,playBG);
+        EventTool.Add<string>(EventName.Audio.PlayBG,playBG);
+        EventTool.Add<string>(EventName.Audio.PlayOnly,playBG);
     }
 
     private void playBG(string audioName)
     {
         if(!audios.ContainsKey(audioName))
         {
-            AudioClip ac = LocalData.ResLoad(AUDIODIR+audioName) as AudioClip;
+            AudioClip ac = LocalDataTool.ResLoad(AUDIODIR+audioName) as AudioClip;
             audios.Add(audioName,ac);
         }
         bgAudioSource.clip = audios[audioName];
@@ -35,7 +35,7 @@ public class AudioMng : MonoBehaviour
     {
         if(!audios.ContainsKey(audioName))
         {
-            AudioClip ac = LocalData.ResLoad(AUDIODIR+audioName) as AudioClip;
+            AudioClip ac = LocalDataTool.ResLoad(AUDIODIR+audioName) as AudioClip;
             audios.Add(audioName,ac);
         }
         AudioSource audioSource = playOnlyGO.AddComponent<AudioSource>();

@@ -5,13 +5,23 @@ using System.Net.Sockets;
 using System.Net;
 using System;
 
-public class ServerMng : MonoBehaviour {
+public class SocketClientMng : MngBase
+{
 
 	private Socket socket;
 	private byte[] buffer = new byte[m_BufferLength];
     private const int m_BufferLength = 1024*1024;
     private int m_BufferSize=0; //数组的实际占用的长度
-	public void Send(byte[] sendData)
+
+	public override void Init()
+	{
+		SocketUnPack.Init();
+		EventTool.Add<byte[]>(EventName.SocketClient.Send,send);
+		EventTool.Add<string,int>(EventName.SocketClient.ConnectServer,connectServer);
+		EventTool.Add(EventName.SocketClient.CloseConnect,closeConnect);
+	}
+
+	private void send(byte[] sendData)
 	{
 		if(socket!=null)
 		{
@@ -44,7 +54,7 @@ public class ServerMng : MonoBehaviour {
 		}
 	}
 
-	public void ConnectServer(string ipStr,int port)
+	private void connectServer(string ipStr,int port)
 	{
 		if(socket!=null)
 		{
@@ -87,10 +97,8 @@ public class ServerMng : MonoBehaviour {
 					int rLength = handler.EndReceive(ar);
 					if(rLength>0)
 					{
-						byte[] rData = new byte[rLength];
-						Array.Copy(buffer,rData,rLength);
-						string receStr = System.Text.Encoding.Unicode.GetString(rData);
-//						logStr="接受消息："+receStr+"\n"+logStr;
+						byte[] rData = unPackHead();
+						EventTool.Run<byte[]>(EventName.SocketClient.ReceiveData,rData);
 					}
 					receiveData();
 				}
@@ -109,9 +117,16 @@ public class ServerMng : MonoBehaviour {
 		}
 	}
 
-	public void CloseConnect()
+	private void closeConnect()
 	{
 		socket.Close();
 		socket=null;
+	}
+
+	private byte[] unPackHead()
+	{
+		byte[] rData=null;
+		//接受消息注意粘包问题
+		return rData;
 	}
 }
