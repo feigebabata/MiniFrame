@@ -11,4 +11,10 @@ public class EventName
 		public static readonly string OpenFinsh = "PanelBase.OpenFinsh";
 		public static readonly string CloseFinsh = "PanelBase.CloseFinsh";
 	}
+
+	public class Audio
+	{
+		public static readonly string PlayBG = "Audio.PlayBG";
+		public static readonly string PlayOnly = "Audio.PlayOnly";
+	}
 }

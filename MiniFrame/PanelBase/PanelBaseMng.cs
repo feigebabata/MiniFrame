@@ -24,7 +24,7 @@ public class PanelBaseMng : MonoBehaviour
 			Debug.LogWarning("[PanelBaseMng.initPanelBase]"+panelBaseName+"已初始化过！");
 			return;
 		}
-		GameObject go = Resources.Load<GameObject>(PBDIR+panelBaseName);
+		GameObject go = LocalData.ResLoad(PBDIR+panelBaseName) as GameObject;
 		go = Instantiate<GameObject>(go);
 		go.name=panelBaseName.ToString();
 		PanelBase pb = go.GetComponent<PanelBase>();
