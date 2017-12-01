@@ -16,11 +16,17 @@ public class AppMng : MngBase
 		{
 			mngs[i].Init();
 		}
+		appInitFinsh();
 	}
 
 	public override void Init()
 	{
 		
+	}
+
+	private void appInitFinsh()
+	{
+		EventTool.Run<string>(EventName.PanelBase.Open,PanelBaseName.ManorUI);
 	}
 	
 }

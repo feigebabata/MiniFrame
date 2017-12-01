@@ -63,8 +63,7 @@ public class PanelBase : MonoBehaviour
 	{
 		gameObject.SetActive(false);
 		IsOpen=false;
-		//
-		EventTool.Run(EventName.PanelBase.InitFinsh+gameObject.name);
+		GetComponent<ModelBase>().Init();
 	}
 	public void Open()
 	{

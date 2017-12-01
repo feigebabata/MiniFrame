@@ -11,51 +11,51 @@ public class PanelBaseMng : MngBase
 	private const string PBDIR = "PanelBases/";
 	public override void Init()
 	{
-		EventTool.Add<PanelBaseName>(EventName.PanelBase.Init,initPanelBase);
-		EventTool.Add<PanelBaseName>(EventName.PanelBase.Open,openPanelBase);
-		EventTool.Add<PanelBaseName>(EventName.PanelBase.Close,closePanelBase);
+		EventTool.Add<string>(EventName.PanelBase.Init,initPanelBase);
+		EventTool.Add<string>(EventName.PanelBase.Open,openPanelBase);
+		EventTool.Add<string>(EventName.PanelBase.Close,closePanelBase);
 		
 	}
 
-	private void initPanelBase(PanelBaseName panelBaseName)
+	private void initPanelBase(string panelBaseName)
 	{
-		if(panelBases.ContainsKey(panelBaseName.ToString()))
+		if(panelBases.ContainsKey(panelBaseName))
 		{
 			Debug.LogWarning("[PanelBaseMng.initPanelBase]"+panelBaseName+"已初始化过！");
 			return;
 		}
 		GameObject go = LocalDataTool.ResLoad(PBDIR+panelBaseName) as GameObject;
 		go = Instantiate<GameObject>(go);
-		go.name=panelBaseName.ToString();
+		go.name=panelBaseName;
 		PanelBase pb = go.GetComponent<PanelBase>();
 		go.transform.SetParent(transform.GetChild((int)pb.Layer),false);
-		panelBases.Add(panelBaseName.ToString(),pb);
+		panelBases.Add(panelBaseName,pb);
 		pb.Init();
 	}
 
-	private void openPanelBase(PanelBaseName panelBaseName)
+	private void openPanelBase(string panelBaseName)
 	{
-		if(!panelBases.ContainsKey(panelBaseName.ToString()))
+		if(!panelBases.ContainsKey(panelBaseName))
 		{
 			initPanelBase(panelBaseName);
 		}
-		Transform t = panelBases[panelBaseName.ToString()].transform;
+		Transform t = panelBases[panelBaseName].transform;
 		t.SetSiblingIndex(t.parent.childCount-1);
-		panelBases[panelBaseName.ToString()].Open();
+		panelBases[panelBaseName].Open();
 	}
 
-	private void closePanelBase(PanelBaseName panelBaseName)
+	private void closePanelBase(string panelBaseName)
 	{
-		if(!panelBases.ContainsKey(panelBaseName.ToString()))
+		if(!panelBases.ContainsKey(panelBaseName))
 		{
-			Debug.LogWarning("[PanelBaseMng.closePanelBase]"+panelBaseName+"尚未加载！");
+//			Debug.LogWarning("[PanelBaseMng.closePanelBase]"+panelBaseName+"尚未加载！");
 			return;
 		}
-		if(!panelBases[panelBaseName.ToString()].IsOpen)
+		if(!panelBases[panelBaseName].IsOpen)
 		{
-			Debug.LogWarning("[PanelBaseMng.closePanelBase]"+panelBaseName+"尚未打开！");
+//			Debug.LogWarning("[PanelBaseMng.closePanelBase]"+panelBaseName+"尚未打开！");
 			return;
 		}
-		panelBases[panelBaseName.ToString()].Close();
+		panelBases[panelBaseName].Close();
 	}
 }

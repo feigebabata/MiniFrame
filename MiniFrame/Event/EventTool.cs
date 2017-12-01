@@ -41,14 +41,26 @@ public class EventTool
 	{
 		if( !eventDict.ContainsKey(eventName) || eventDict[eventName].Count==0)
 		{
-			Debug.LogWarning("[EventMng.Run]无此事件监听:"+eventName);
+//			Debug.LogWarning("[EventMng.Run]无此事件监听:"+eventName);
 			return;
 		}
 		List<object> events = eventDict[eventName];
 		foreach(object obj in events)
 		{
-			Action callback = (Action)obj;
-			callback();
+			if(obj==null)
+			{
+				continue;
+			}
+			try
+			{
+				Action callback = (Action)obj;
+				callback();
+			}
+			catch(Exception e)
+			{
+				Debug.LogError(e);
+				return;
+			}
 		}
 	}
 
@@ -56,12 +68,16 @@ public class EventTool
 	{
 		if( !eventDict.ContainsKey(eventName) || eventDict[eventName].Count==0)
 		{
-			Debug.LogWarning("[EventMng.Run]无此事件监听:"+eventName);
+//			Debug.LogWarning("[EventMng.Run]无此事件监听:"+eventName);
 			return;
 		}
 		List<object> events = eventDict[eventName];
 		foreach(object obj in events)
 		{
+			if(obj==null)
+			{
+				continue;
+			}
 			Action<T> callback=null;
 			try
 			{
@@ -81,12 +97,16 @@ public class EventTool
 	{
 		if( !eventDict.ContainsKey(eventName) || eventDict[eventName].Count==0)
 		{
-			Debug.LogWarning("[EventMng.Run]无此事件监听:"+eventName);
+//			Debug.LogWarning("[EventMng.Run]无此事件监听:"+eventName);
 			return;
 		}
 		List<object> events = eventDict[eventName];
 		foreach(object obj in events)
 		{
+			if(obj==null)
+			{
+				continue;
+			}
 			Action<T,Y> callback=null;
 			try
 			{
