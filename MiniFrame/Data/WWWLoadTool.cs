@@ -4,37 +4,33 @@ using System;
 
 public class WWWLoadTool : MonoBehaviour
 {
-    private WWWForm _from = null;
-    private string _ip = string.Empty;
-    private string _str = string.Empty;
-    private Action<string> _callBack;
-    public void LoadStringByPHP(string _Ip, string _Str, Action<string> _CallBack, WWWForm _From = null)
-    {
-        this._str = _Str;
-        this._callBack = _CallBack;
-        this._ip = _Ip;
-        this._from = _From;
+	static GameObject wwwLoadTool_GO;
+	public static void Create(string _path,Action<WWW> _finsh)
+	{
+		if(wwwLoadTool_GO == null)
+		{
+			wwwLoadTool_GO = new GameObject ("WWWLoadTool");
+		}
+		wwwLoadTool_GO.AddComponent<WWWLoadTool> ().loadFile (_path, _finsh);
+	}
 
-        this.StartCoroutine(this.loadStringByPHP());
+	void loadFile(string _path,Action<WWW> _finsh)
+    {
+		this.StartCoroutine(this.ieLoadFile(_path,_finsh));
     }
-    IEnumerator loadStringByPHP()
+	IEnumerator ieLoadFile(string _path,Action<WWW> _finsh)
     {
         yield return 0;
-        WWW w = null;
-        if (this._from == null)
-            w = new WWW(this._ip + this._str);
-        else
-            w = new WWW(this._ip + this._str, this._from);
-        yield return w;
-        if (this._callBack != null && w != null)
-        {
-            if (string.IsNullOrEmpty(w.error))
-                this._callBack(w.text);
-            else
-            {
-                Debug.LogError("错误：" + w.error);
-            }
-        }
+		WWW w = new WWW(_path);
+		yield return w;
+		if(w!=null && string.IsNullOrEmpty(w.error))
+		{
+			_finsh(w);
+		}
+		else
+		{
+			_finsh( null );
+		}
         yield return new WaitForEndOfFrame();
         GameObject.Destroy(this);
     }

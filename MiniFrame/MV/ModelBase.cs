@@ -4,8 +4,22 @@ using UnityEngine;
 
 public class ModelBase : MonoBehaviour {
 
+	PanelBase m_panelBase;
+
 	public virtual void Init()
 	{
-		GetComponent<ViewBase>().Init();
+		if( GetComponent<ViewBase>() != null ) {
+			GetComponent<ViewBase>().Init();
+		}
+		m_panelBase = GetComponent<PanelBase> ();
+	}
+
+
+	public bool IsOpen
+	{
+		get
+		{ 
+			return m_panelBase.IsOpen; 
+		}
 	}
 }

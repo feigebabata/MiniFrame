@@ -12,8 +12,10 @@ public class PanelBaseMng : MngBase
 	public override void Init()
 	{
 		EventTool.Add<string>(EventName.PanelBase.Init,initPanelBase);
-		EventTool.Add<string>(EventName.PanelBase.Open,openPanelBase);
-		EventTool.Add<string>(EventName.PanelBase.Close,closePanelBase);
+		EventTool.Add<string>(EventName.PanelBase.Open,(panelBaseName)=>{openPanelBase(panelBaseName,null);});
+		EventTool.Add<string>(EventName.PanelBase.Close,(panelBaseName)=>{closePanelBase(panelBaseName,null);});
+		EventTool.Add<string,PanelBaseEnterAni[]>(EventName.PanelBase.Open2,openPanelBase);
+		EventTool.Add<string,PanelBaseExitAni[]>(EventName.PanelBase.Close2,closePanelBase);
 		
 	}
 
@@ -33,7 +35,7 @@ public class PanelBaseMng : MngBase
 		pb.Init();
 	}
 
-	private void openPanelBase(string panelBaseName)
+	private void openPanelBase(string panelBaseName,PanelBaseEnterAni[] enterAni)
 	{
 		if(!panelBases.ContainsKey(panelBaseName))
 		{
@@ -41,10 +43,10 @@ public class PanelBaseMng : MngBase
 		}
 		Transform t = panelBases[panelBaseName].transform;
 		t.SetSiblingIndex(t.parent.childCount-1);
-		panelBases[panelBaseName].Open();
+		panelBases[panelBaseName].Open(enterAni);
 	}
 
-	private void closePanelBase(string panelBaseName)
+	private void closePanelBase(string panelBaseName,PanelBaseExitAni[] exitAni)
 	{
 		if(!panelBases.ContainsKey(panelBaseName))
 		{
@@ -56,6 +58,6 @@ public class PanelBaseMng : MngBase
 //			Debug.LogWarning("[PanelBaseMng.closePanelBase]"+panelBaseName+"尚未打开！");
 			return;
 		}
-		panelBases[panelBaseName].Close();
+		panelBases[panelBaseName].Close(exitAni);
 	}
 }

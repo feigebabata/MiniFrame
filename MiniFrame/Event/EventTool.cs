@@ -58,7 +58,7 @@ public class EventTool
 			}
 			catch(Exception e)
 			{
-				Debug.LogError(e);
+				Debug.LogErrorFormat("[EventTool.Run] {0}\n{1}",eventName,e);
 				return;
 			}
 		}
@@ -85,7 +85,7 @@ public class EventTool
 			}
 			catch(Exception e)
 			{
-				Debug.LogError(e);
+				Debug.LogErrorFormat("[EventTool.Run<T>] {0}\n{1}",eventName,e);
 				return;
 			}
 			callback(val);
@@ -114,7 +114,7 @@ public class EventTool
 			}
 			catch(Exception e)
 			{
-				Debug.LogError(e);
+				Debug.LogErrorFormat("[EventTool.Run<T,Y>] {0}\n{1}",eventName,e);
 				return;
 			}
 			callback(v1,v2);

@@ -63,39 +63,52 @@ public class PanelBase : MonoBehaviour
 	{
 		gameObject.SetActive(false);
 		IsOpen=false;
-		GetComponent<ModelBase>().Init();
+		if(GetComponent<ModelBase>()!=null)
+		{
+			GetComponent<ModelBase>().Init();
+		}
 	}
-	public void Open()
+	public void Open(PanelBaseEnterAni[] _enterAni=null)
 	{
+		if(_enterAni==null && enterAni!=null)
+		{
+			_enterAni = enterAni;
+		}
+		gameObject.SetActive(true);
+		IsOpen=true;
+		EventTool.Run(EventName.PanelBase.Open+gameObject.name);
 		StopAllCoroutines();
 		transform.localScale=Vector3.one;
 		transform.localPosition = Vector3.zero;
 		GetComponent<CanvasGroup>().alpha=1;
-		gameObject.SetActive(true);
-		IsOpen=true;
 		StartCoroutine(playEnterAni(()=>
 			{
 				EventTool.Run(EventName.PanelBase.OpenFinsh+gameObject.name);
-			}));
+				},_enterAni));
 	}
-	public void Close()
+	public void Close(PanelBaseExitAni[] _exitAni=null)
 	{
+		if(_exitAni==null && exitAni!=null)
+		{
+			_exitAni = exitAni;
+		}
+		IsOpen=false;
+		EventTool.Run(EventName.PanelBase.Close+gameObject.name);
 		StopAllCoroutines();
 		StartCoroutine(playExitAni(()=>
 			{
 				gameObject.SetActive(false);
-				IsOpen=false;
 				EventTool.Run(EventName.PanelBase.CloseFinsh+gameObject.name);
-			}));
+				},_exitAni));
 	}
 
 	
-	private IEnumerator playEnterAni(Action finsh)
+	private IEnumerator playEnterAni(Action finsh,PanelBaseEnterAni[] _enterAni)
 	{
 
-		if(aniTime>0 && enterAni!=null && enterAni.Length>0)
+		if(aniTime>0 && _enterAni!=null && _enterAni.Length>0)
 		{
-			foreach(PanelBaseEnterAni pba in enterAni)
+			foreach(PanelBaseEnterAni pba in _enterAni)
 			{
 				switch(pba)
 				{
@@ -134,11 +147,11 @@ public class PanelBase : MonoBehaviour
 		finsh();
 	}
 
-	private IEnumerator playExitAni(Action finsh)
+	private IEnumerator playExitAni(Action finsh,PanelBaseExitAni[] _exitAni)
 	{
-		if(aniTime>0 && exitAni!=null && exitAni.Length>0)
+		if(aniTime>0 && _exitAni!=null && _exitAni.Length>0)
 		{
-			foreach(PanelBaseExitAni pba in exitAni)
+			foreach(PanelBaseExitAni pba in _exitAni)
 			{
 				switch(pba)
 				{

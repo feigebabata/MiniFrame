@@ -75,6 +75,7 @@ public class SocketClientMng : MngBase
 					catch(Exception e)
 					{
 						socket = null;
+						Debug.LogError("[ServerMng.ConnectServer]连接服务器失败:"+e);
 					}
 				}),socket);
 

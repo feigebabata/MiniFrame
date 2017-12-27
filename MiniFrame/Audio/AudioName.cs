@@ -1,10 +1,10 @@
 using System.Collections;
 
-public class AudioName
+public static class AudioName
 {
-    public class BG
+	public static class BG
     {
-        public static readonly string BGM1 = "BG/BGM1";
+		public const string BGM1 = "BG/BGM1";
     }
 
 }
